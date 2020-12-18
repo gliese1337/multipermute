@@ -11,12 +11,9 @@
   "scripts": {
     "test": "node test.js | tap-spec"
   },
-  "bin": {
-    "multipermute": "cli.js"
-  },
   "repository": {
     "type": "git",
-    "url": "git@github.com:ekg/multipermute.git"
+    "url": "git+ssh://git@github.com/ekg/multipermute.git"
   },
   "keywords": [
     "multiset",
@@ -31,11 +28,9 @@
     "url": "https://github.com/ekg/multipermute/issues"
   },
   "homepage": "https://github.com/ekg/multipermute",
-  "dependencies": {
-    "just-a-list": "^0.2.0"
-  },
   "devDependencies": {
     "tap-spec": "^2.1.1",
     "tape": "^3.0.3"
-  }
+  },
+  "dependencies": {}
 }

@@ -1,81 +1,59 @@
-/*
-This module encodes functions to generate the permutations of a multiset
-following this algorithm:
+var multipermute = require('./multipermute');
 
-Algorithm 1 
-Visits the permutations of multiset E. The permutations are stored
-in a singly-linked list pointed to by head pointer h. Each node in the linked
-list has a value field v and a next field n. The init(E) call creates a
-singly-linked list storing the elements of E in non-increasing order with h, i,
-and j pointing to its first, second-last, and last nodes, respectively. The
-null pointer is given by φ. Note: If E is empty, then init(E) should exit.
-Also, if E contains only one element, then init(E) does not need to provide a
-value for i.
+function overlap(a, b) {
+  const al = a.length;
+  const bl = b.length;
+  const l = Math.min(al, bl);
 
-[h, i, j] ← init(E) 
-visit(h) 
-while j.n ≠ φ orj.v <h.v do
-    if j.n ≠    φ and i.v ≥ j.n.v then 
-        s←j
-    else
-        s←i 
-    end if
-    t←s.n 
-    s.n ← t.n 
-    t.n ← h 
-    if t.v < h.v then
-        i←t 
-    end if
-    j←i.n 
-    h←t 
-    visit(h)
-end while
-*/
+  let max = 0;
 
-var List = require('just-a-list')
-
-function init(multiset) {
-  multiset.sort()
-  var l = multiset.length
-  var h = new List()
-  var ultimate = l > 0 ? h.insertBeginning(multiset[0]) : null
-  var penultimate = l > 1 ? h.insertBeginning(multiset[1]) : ultimate
-  for (var i = 2; i < l; ++i) {
-    h.insertBeginning(multiset[i])
+  // test suffixes of a against prefixes of b
+  outer: for (let i = 1; i < l; i++) {
+    const aprime = a.slice(al - i);
+    const bprime = b.slice(0, i);
+    for (let j = aprime.length - 1; j >= 0; j--) {
+      if (aprime[j] !== bprime[j]) continue outer;
+    }
+    max = Math.max(max, i);
   }
-  return [h.head, penultimate, ultimate]  
+
+  return max;
 }
 
-function visit(h) {
-  var o = h
-  var l = []
-  while (o) {
-    l.push(o.data)
-    o = o.next
-  }
-  return l
-}
+function supermulti(...multiplicities) {
+  const ps = [...multipermute(multiplicities)];
+  let current = ps.pop();
+  const pl = current.length;
+  main: while (ps.length) {
+    const p = ps.pop();
 
-function multipermute(multiset, cb) {
-  var l = init(multiset)
-  var h=l[0], i=l[1], j=l[2], s
-  cb(visit(h))
-  while (j.next || j.data < h.data) {
-    if (j.next && i.data >= j.next.data) {
-      s = j
+    // check if p is contained in current
+    const diff = current.length - pl;
+    outer: for (let i = 0; i <= diff; i++) {
+      for (let j = 0, k = i; j < pl; j++,k++) {
+        if (p[j] !== current[k]) continue outer;
+      }
+      // console.log(`Found ${ JSON.stringify(p) } in ${ JSON.stringify(current) } at offset ${ i }`);
+      continue main;
+    }
+
+    // find maximum overlap 
+    const pre = overlap(p, current);
+    const suf = overlap(current, p);
+    if (pre > suf) {
+      current = [...p, ...current.slice(pre)];
     } else {
-      s = i
+      // if both are zero, we default to suffixing
+      current = [...current, ...p.slice(suf)];
     }
-    var t = s.next
-    s.next = t.next
-    t.next = h
-    if (t.data < h.data) {
-      i = t
-    }
-    j = i.next
-    h = t
-    cb(visit(h))
+    // console.log(`Put ${ JSON.stringify(p) } in ${ JSON.stringify(current) }`);
   }
+  console.log(JSON.stringify(multiplicities), JSON.stringify(current.map(i => i + 1)));
 }
 
-module.exports = multipermute
+supermulti(1,2);
+supermulti(2,2);
+supermulti(1,1,1);
+supermulti(1,1,2);
+supermulti(1,2,2);
+supermulti(2,2,2);

@@ -1,18 +1,14 @@
 var test = require('tape')
-var multipermute = require('./')
+var multipermute = require('./multipermute')
 
 test('multipermute test', function (t) {
 
   t.plan(4)
 
-  t.throws(multipermute)
+  t.throws(() => [...multipermute()])
 
   var c = [ [ 1, 0 ], [ 0, 1 ] ]
-  var r = []
-  multipermute([0,1],
-              function(x) {
-                r.push(x)
-              })
+  var r = [...multipermute([1,1])]; // one zero and one one
   t.deepEqual(c, r)
 
   c = [ [ 1, 1, 1, 0 ],
@@ -20,11 +16,7 @@ test('multipermute test', function (t) {
         [ 1, 0, 1, 1 ],
         [ 1, 1, 0, 1 ] ]
 
-  r = []
-  multipermute([0,1,1,1],
-              function(x) {
-                r.push(x)
-              })
+  r = [...multipermute([1,3])]; // one zero and three ones
   t.deepEqual(c, r)
 
   c = [ [ 3, 2, 1, 1, 1, 0 ],
@@ -148,11 +140,7 @@ test('multipermute test', function (t) {
         [ 1, 1, 1, 0, 2, 3 ],
         [ 2, 1, 1, 1, 0, 3 ] ]
 
-  r = []
-  multipermute([0,2,1,3,1,1],
-              function(x) {
-                r.push(x)
-              })
+  r = [...multipermute([1, 3, 1, 1])]; // one zero, 3 ones, 1 two, and 1 three
   t.deepEqual(c, r)
 
 });
