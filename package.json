@@ -9,6 +9,7 @@
     "index.d.ts"
   ],
   "scripts": {
+    "run": "node .",
     "test": "node test.js | tap-spec"
   },
   "repository": {

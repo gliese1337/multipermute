@@ -21,13 +21,15 @@ function overlap(a, b) {
 }
 
 function supermulti(...multiplicities) {
-  const ps = [...multipermute(multiplicities)];
-  let current = ps.pop();
-  const pl = current.length;
-  main: while (ps.length) {
-    const p = ps.pop();
+  let current;
+  main: for (const p of multipermute(multiplicities)){
+    if (!current) {
+      current = p;
+      continue;
+    }
 
     // check if p is contained in current
+    const pl = p.length;
     const diff = current.length - pl;
     outer: for (let i = 0; i <= diff; i++) {
       for (let j = 0, k = i; j < pl; j++,k++) {
