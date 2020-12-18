@@ -50,12 +50,14 @@ function supermulti(...multiplicities) {
     }
     // console.log(`Put ${ JSON.stringify(p) } in ${ JSON.stringify(current) }`);
   }
-  console.log(JSON.stringify(multiplicities), JSON.stringify(current.map(i => i + 1)));
+  console.log(current.length, JSON.stringify(multiplicities), JSON.stringify(current.map(i => i + 1)));
 }
 
+supermulti(1,1);
 supermulti(1,2);
 supermulti(2,2);
 supermulti(1,1,1);
 supermulti(1,1,2);
 supermulti(1,2,2);
 supermulti(2,2,2);
+supermulti(1,1,1,1);
