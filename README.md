@@ -1,10 +1,6 @@
 # multipermute
 
-[![NPM](https://nodei.co/npm/multipermute.png?global=true)](https://nodei.co/npm/multipermute/)
-
-[![Build Status](https://travis-ci.org/ekg/multipermute.svg)](https://travis-ci.org/ekg/multipermute)
-
-efficient multiset permutations
+Experiments in multiset superpermutation.
 
 ## Overview
 
@@ -128,8 +124,8 @@ A A A B
 
 ### multipermute.py
 
-A python library implementation is also included for those who like to indent their code consistently.
+`index.js` contains code to combine permutations into a superpermutation with a simple greedy algorithm.
 
-## multiset combinations
+`npm test` verifies the correctness of the permutation generator.
 
-Another repository contains code for multiset combinations: [multichoose](https://npmjs.org/package/multichoose) [or on github](https://github.com/ekg/multichoose).
+`npm run` executes index.js and outputs superpermutations for a few sample multisets.

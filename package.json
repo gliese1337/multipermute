@@ -11,14 +11,12 @@
   "scripts": {
     "build": "tsc",
     "test": "mocha -r ts-node/register test/**/*-test.ts",
-    "prepare": "npm test && tsc"
-  },
-  "bin": {
-    "multipermute": "cli.js"
+    "prepare": "npm test && tsc",
+    "generate": "ts-node ./superpermute"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:ekg/multipermute.git"
+    "url": "git+ssh://git@github.com/ekg/multipermute.git"
   },
   "keywords": [
     "multiset",
@@ -36,6 +34,7 @@
   "devDependencies": {
     "@types/chai": "^4.2.14",
     "@types/mocha": "^8.2.0",
+    "@types/node": "^14.14.14",
     "chai": "^4.2.0",
     "jsmin": "^1.0.1",
     "mocha": "^8.2.1",
